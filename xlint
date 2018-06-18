@@ -1,0 +1,71 @@
+#!/bin/bash
+if [ "$1" == "" ]
+then
+    echo "Usage : xlint {dir} {targetbranch} {testbranch(PR)}"
+    exit
+fi
+
+if [ ! -d $1 ]
+then
+    echo "Directory not found!"
+    exit 0
+fi
+
+if [ ! -d '.git' ]
+then
+    echo "Not a git repository!"
+    exit 0
+fi
+
+if [ ! -d '/tmp/xlint' ]
+then
+    mkdir /tmp/xlint
+fi
+
+cd $1
+echo $(pwd)
+src="$(cd $(dirname $0);pwd)"
+target=$3
+test=$2
+oldbranch=$(git branch|cat|grep  \*|cut -d' ' -f2)
+git stash
+git checkout $test -f
+git merge --stat --no-commit --no-ff $target 2> /dev/null
+echo `git diff  --cached --name-only|cat`
+files="$(git diff  --cached --name-only | grep -E .*\.py$)"
+IFS=$'\n'
+echo "files : " $files
+
+testpath='/tmp/xlint/branch.file'
+targetpath='/tmp/xlint/master.file'
+
+
+while read -r file; do
+    if [ "$file" == "" ]
+    then
+        continue
+    fi
+    echo "Current file : "$file
+    IFS=$''
+    file1=`git show $test:"$file" 2> /dev/null|cat`
+    file2=`git show $target:"$file"|cat`
+    echo $file2 > $testpath
+    echo $file1 > $targetpath
+    data=$(diff -u $targetpath  $testpath)
+    ranges=$(python $src/compile.py "$data" "$testpath") 
+    # echo "Ranges" $ranges 
+    mypy_out=$(python $src/lint.py --python ~/py3/bin "$file" --mypy)
+    pylint_out=$(python $src/lint.py --python ~/py3/bin "$file" --pylint)
+    python $src/filter_output.py --data "$mypy_out" --ranges "$ranges" --mypy
+    python $src/filter_output.py --data "$pylint_out" --ranges "$ranges" --pylint
+    rm -rf .mypy_cache
+    IFS=$'\n'
+done <<< "$(git diff  --cached --name-only | grep -E .*\.py$)"
+git merge --abort
+
+
+
+if [ "$target" != "master" ]
+then
+    git checkout $target
+fi

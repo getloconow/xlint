@@ -58,7 +58,7 @@ Here's the VSCODE config.
 }
 ```
 
-Since we're lucky we got mypy typing for djnago library, located right [here](https://github.com/machinalis/mypy-django). close this repo, add it to mypypath.
+Django typing mypy-django right [here](https://github.com/machinalis/mypy-django). close this repo, add it to mypypath.
 
 
 # Python guidelines ( necessary )

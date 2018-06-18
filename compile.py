@@ -2,6 +2,9 @@ import sys
 from check_changes import get_functions
 
 diff = sys.argv[1]
+_file = sys.argv[2]
+
+# print(_file)
 if diff == '':
     print([])
     exit(0)
@@ -44,5 +47,6 @@ for line in lines:
     ln += 1
 
 
-with open('../branch.file') as file:
-    get_functions(file.read(), selected)
+with open(_file) as file:
+    content: str = file.read()
+    get_functions(content, selected)

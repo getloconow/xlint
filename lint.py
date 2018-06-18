@@ -6,10 +6,6 @@ import imp
 import json
 
 
-def hell(a: int) -> str:
-    return "sds"
-
-
 try:
     imp.find_module('pylint')
     imp.find_module('pylint_django')
@@ -66,8 +62,8 @@ def write_config(command: list, editor: str, python: str=None) -> None:
 
 
 def run_cmd(python_command: list, command: list, name: str='') -> None:
-    print('Running test : {}'.format(name), end='\r')
-    print(' '.join(python_command + command))
+    # print('Running test : {}'.format(name), end='\r')
+    # print(' '.join(python_command + command))
     res = getoutput(' '.join(python_command + command))
     # message = '{} test out : '.format(name)
     # print(message)
@@ -80,10 +76,10 @@ def run_checks(python_command: list, command: list, cmds: dict) -> None:
         run_cmd(python_command, command, 'Pylint')
     s = command[2]
     if cmds['mypy']:
-        s = s.replace("\\", "\\\\")
-        s = s.replace(" ", "\\ ")
+        # s = s.replace("\\", "\\\\")
+        # s = s.replace(" ", "\\ ")
         command = ['mypy', '--check-untyped-defs',
-                   '--disallow-untyped-defs', '--quick-and-dirty']
+                   '--disallow-untyped-defs', '--quick-and-dirty', s]
         run_cmd(python_command, command, 'Mypi')
 
 
@@ -114,7 +110,9 @@ def exec(level: int=0, write_config: str='', module: str='', python: str='',
         raise ModuleNotFoundError(
             'Specify module name. i.e. : ' + ' '.join(sys.argv) + ' {module}')
     if not write_config:
-        COMMAND.append(module)
+        s = module.replace("\\", "\\\\")
+        s = s.replace(" ", "\\ ")
+        COMMAND.append( s)
     if level in LEVELS:
         COMMAND += list(map(lambda x: '--disable ' + x, LEVELS[level]))
         run_or_exec(COMMAND, write_config, python, cmds=cmds)
