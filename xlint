@@ -28,9 +28,10 @@ src="$(cd $(dirname $0);pwd)"
 target=$3
 test=$2
 oldbranch=$(git branch|cat|grep  \*|cut -d' ' -f2)
+echo $oldbranch
 git stash
 git checkout $test -f
-git merge --stat --no-commit --no-ff $target 2> /dev/null
+git merge --stat --no-commit --no-ff $target
 echo `git diff  --cached --name-only|cat`
 files="$(git diff  --cached --name-only | grep -E .*\.py$)"
 IFS=$'\n'
