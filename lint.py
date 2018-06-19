@@ -78,7 +78,8 @@ def run_checks(python_command: list, command: list, cmds: dict) -> None:
     if cmds['mypy']:
         # s = s.replace("\\", "\\\\")
         # s = s.replace(" ", "\\ ")
-        command = ['mypy', '--check-untyped-defs',
+        command = ['mypy', "--ignore-missing-imports",
+                   "--follow-imports=silent", '--check-untyped-defs',
                    '--disallow-untyped-defs', '--quick-and-dirty', s]
         run_cmd(python_command, command, 'Mypi')
 
