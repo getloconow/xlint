@@ -58,8 +58,8 @@ while read -r file; do
 
     # echo "Ranges" $ranges
     
-    mypy_out=$(python $src/lint.py --python ~/py3/bin "$file" --mypy)
-    pylint_out=$(python $src/lint.py --python ~/py3/bin "$file" --pylint)
+    mypy_out=$(python $src/lint.py  "$file" --mypy)
+    pylint_out=$(python $src/lint.py  "$file" --pylint)
     echo $(python $src/filter_output.py --data "$mypy_out" --ranges "$ranges" --mypy --file "$file")
     echo $(python $src/filter_output.py --data "$pylint_out" --ranges "$ranges" --pylint)
     
