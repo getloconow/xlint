@@ -4,6 +4,7 @@ from typing import List
 
 
 def filter_pylint(data: str, ranges: list) -> None:
+    print("called")
     lines: List[str] = data.splitlines()
     required: List[str] = lines[1:-2]
     required = list(filter(lambda x: not x.startswith('***'), required))
@@ -19,10 +20,11 @@ def filter_pylint(data: str, ranges: list) -> None:
         except IndexError:
             continue
         if linenumber in selected_lines_set:
-            print("", line)
+            print(line)
 
 
 def filter_mypy(data: str, ranges: list, file: str) -> None:
+    print("called")
     lines: List[str] = data.splitlines()
 
     # required: List[str] = lines[1:-2]
@@ -46,8 +48,8 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
             continue
         # print(splitted[0], file)
         if linenumber in selected_lines_set:
-            print("", line)
-    pass
+            print(line)
+    
 
 
 @click.command()
@@ -60,7 +62,7 @@ def main(data: str='', ranges: str='', file: str = '',
          pylint: bool=False, mypy: bool=False) -> None:
     # print(ranges)
     ranges_list: list = json.loads(ranges)
-    # print(ranges)
+    print(ranges)
     if pylint:
         filter_pylint(data, ranges_list)
     if mypy:
