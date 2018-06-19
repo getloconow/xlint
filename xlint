@@ -30,6 +30,7 @@ test=$2
 oldbranch=$(git branch|cat|grep  \*|cut -d' ' -f2)
 echo $oldbranch
 git stash
+git config --global user.email "junaid1460@gmail.com"
 git checkout $test -f
 git merge --stat --no-commit --no-ff $target
 echo `git diff  --cached --name-only|cat`
