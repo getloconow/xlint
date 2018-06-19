@@ -63,6 +63,7 @@ def main(data: str='', ranges: str='', file: str = '',
     # print(ranges)
     ranges_list: list = json.loads(ranges)
     print(ranges)
+    print(data)
     if pylint:
         filter_pylint(data, ranges_list)
     if mypy:
