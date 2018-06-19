@@ -3,3 +3,4 @@ flake8-mypy
 mypy-lang
 pylint
 pylint-django
+click
