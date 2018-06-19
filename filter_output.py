@@ -36,12 +36,15 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
     for line in required:
         try:
             splitted = line.split(':')
-            print(splitted[0], file)
+            # print(splitted[0].strip() == file.strip(), splitted[0].strip(), file.strip())
+            linenumber = int(splitted[-3])
             if splitted[0].strip() != file.strip():
-                raise BaseException
-            linenumber = int(splitted(':')[-3])
+                # print(line, linenumber)
+                continue
+            
         except BaseException:
             continue
+        # print(splitted[0], file)
         if linenumber in selected_lines_set:
             print("\t", line)
     pass
@@ -55,7 +58,7 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
 @click.option('--ranges', help='Pylint enable')
 def main(data: str='', ranges: str='', file: str = '',
          pylint: bool=False, mypy: bool=False) -> None:
-    print(ranges)
+    # print(ranges)
     ranges_list: list = json.loads(ranges)
     # print(ranges)
     if pylint:
