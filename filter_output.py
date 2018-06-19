@@ -19,7 +19,7 @@ def filter_pylint(data: str, ranges: list) -> None:
         except IndexError:
             continue
         if linenumber in selected_lines_set:
-            print("\t", line)
+            print("", line)
 
 
 def filter_mypy(data: str, ranges: list, file: str) -> None:
@@ -46,7 +46,7 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
             continue
         # print(splitted[0], file)
         if linenumber in selected_lines_set:
-            print("\t", line)
+            print("", line)
     pass
 
 
@@ -58,7 +58,7 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
 @click.option('--ranges', help='Pylint enable')
 def main(data: str='', ranges: str='', file: str = '',
          pylint: bool=False, mypy: bool=False) -> None:
-    print(ranges)
+    # print(ranges)
     ranges_list: list = json.loads(ranges)
     # print(ranges)
     if pylint:
