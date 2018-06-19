@@ -4,5 +4,5 @@
 __pycache__
 test
 /*.file
-/*.txt
+/out.py.txt
 /*.ipynb
