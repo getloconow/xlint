@@ -52,8 +52,11 @@ while read -r file; do
     echo $file2 > $testpath
     echo $file1 > $targetpath
     data=$(diff -u $targetpath  $testpath)
+    # sh -c print $data
     ranges=$(python $src/compile.py "$data" "$testpath") 
-    # echo "Ranges" $ranges 
+
+    echo "Ranges" $ranges
+    
     mypy_out=$(python $src/lint.py --python ~/py3/bin "$file" --mypy)
     pylint_out=$(python $src/lint.py --python ~/py3/bin "$file" --pylint)
     python $src/filter_output.py --data "$mypy_out" --ranges "$ranges" --mypy

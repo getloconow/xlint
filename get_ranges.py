@@ -17,14 +17,20 @@ def getScope(line: str, previous_depth: int,
         break
 
     if spaces % 4 != 0:
-        raise IndentationError(spaces)
+        return (previous_depth, False, False, stack[-1])
     isFunction = False
     depth = spaces // 4
     ended: list = []
     if previous_depth > depth:
         ended = []
-        for _ in range(previous_depth - depth):
-            ended += [stack.pop()[2]]
+
+        try:
+            for _ in range(previous_depth - depth):
+                ended += [stack.pop()[2]]
+        except IndexError:
+            print(ended)
+            print(line)
+            pass
     if line.lstrip().startswith('def '):
         stack.append((depth, number, line))
         isFunction = True

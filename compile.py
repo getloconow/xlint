@@ -45,8 +45,13 @@ for line in lines:
 
     lastline_startedwith = startingwith
     ln += 1
-
-
+# print(selected)
+if not selected:
+    print(selected)
+    exit(0)
 with open(_file) as file:
+
     content: str = file.read()
+    # print(content)
+    # print(diff)
     get_functions(content, selected)
