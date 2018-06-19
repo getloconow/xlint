@@ -22,7 +22,7 @@ def filter_pylint(data: str, ranges: list) -> None:
             print("\t", line)
 
 
-def filter_mypy(data: str, ranges: list) -> None:
+def filter_mypy(data: str, ranges: list, file: str) -> None:
     lines: List[str] = data.splitlines()
 
     # required: List[str] = lines[1:-2]
@@ -35,8 +35,12 @@ def filter_mypy(data: str, ranges: list) -> None:
     linenumber: int
     for line in required:
         try:
-            linenumber = int(line.split(':')[-3])
-        except IndexError:
+            splitted = line.split(':')
+            print(splitted[0], file)
+            if splitted[0].strip() != file.strip():
+                raise BaseException
+            linenumber = int(splitted(':')[-3])
+        except BaseException:
             continue
         if linenumber in selected_lines_set:
             print("\t", line)
@@ -46,9 +50,10 @@ def filter_mypy(data: str, ranges: list) -> None:
 @click.command()
 @click.option('--mypy/--no-mypy', default=False, help='Pylint enable')
 @click.option('--pylint/--no-pylint', default=False, help='Pylint enable')
+@click.option('--file', default=False, help='Pylint enable')
 @click.option('--data', help='Pylint enable')
 @click.option('--ranges', help='Pylint enable')
-def main(data: str='', ranges: str='',
+def main(data: str='', ranges: str='', file: str = '',
          pylint: bool=False, mypy: bool=False) -> None:
     print(ranges)
     ranges_list: list = json.loads(ranges)
@@ -56,7 +61,7 @@ def main(data: str='', ranges: str='',
     if pylint:
         filter_pylint(data, ranges_list)
     if mypy:
-        filter_mypy(data, ranges_list)
+        filter_mypy(data, ranges_list, file)
 
 
 if __name__ == '__main__':

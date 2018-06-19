@@ -59,8 +59,8 @@ while read -r file; do
     
     mypy_out=$(python $src/lint.py --python ~/py3/bin "$file" --mypy)
     pylint_out=$(python $src/lint.py --python ~/py3/bin "$file" --pylint)
-    python $src/filter_output.py --data "$mypy_out" --ranges "$ranges" --mypy
-    python $src/filter_output.py --data "$pylint_out" --ranges "$ranges" --pylint
+    python $src/filter_output.py --data "$mypy_out" --ranges "$ranges" --mypy --file "$file"
+    python $src/filter_output.py --data "$pylint_out" --ranges "$ranges" --pylint 
     rm -rf .mypy_cache
     IFS=$'\n'
 done <<< "$(git diff  --cached --name-only | grep -E .*\.py$)"

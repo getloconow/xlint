@@ -17,15 +17,18 @@ def get_ranges(data: str) -> list:
         #     print(token)?
         #     print(token)
         if found_indentable:
+            if stack and stack[-1].string == 'if' and token.string == 'else':
+                expecting_newline = False
+                found_indentable = False
             if expecting_newline:
 
                 if token.type == 4:
                     expecting_newline = False
                 continue
+            if token.type == 4:
+                continue
 
-            if token.type != 5:
-                raise IndentationError
-            else:
+            if token.type == 5:
                 found_indentable = False
             continue
 
