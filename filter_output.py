@@ -58,7 +58,7 @@ def filter_mypy(data: str, ranges: list, file: str) -> None:
 @click.option('--ranges', help='Pylint enable')
 def main(data: str='', ranges: str='', file: str = '',
          pylint: bool=False, mypy: bool=False) -> None:
-    # print(ranges)
+    print(ranges)
     ranges_list: list = json.loads(ranges)
     # print(ranges)
     if pylint:
