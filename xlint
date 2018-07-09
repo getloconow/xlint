@@ -22,6 +22,12 @@ then
     mkdir /tmp/xlint
 fi
 
+if [ "$test" == "master" ]
+then
+    echo "Master updated"
+    exit 0
+fi
+
 cd $1
 echo $(pwd)
 src="$(cd $(dirname $0);pwd)"
